@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slot Machine</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="load-screen" id="load-screen" aria-label="Load screen">
+      <form class="load-card" id="experience-form">
+        <h2>Choose Slot Machine</h2>
+        <p class="machine-choice-label">Pick machine to control</p>
+        <div class="machine-choice-buttons" aria-label="Machine choices">
+          <button class="machine-choice-btn" type="button" data-machine-choice="1">Machine 1</button>
+          <button class="machine-choice-btn" type="button" data-machine-choice="2">Machine 2</button>
+        </div>
+      </form>
+    </section>
+
+    <main class="slot-machine game-hidden" id="game-area" aria-label="Slot machine game">
+      <h1>Slot Machine</h1>
+
+      <section class="machines" aria-label="Slot machines">
+        <article class="machine-box" aria-label="Machine 1" data-machine="1">
+          <div class="machine-popup" aria-live="polite"></div>
+          <h2>Machine 1</h2>
+          <div class="reels" aria-label="Machine 1 reels">
+            <div class="reel" aria-live="polite">Win Car</div>
+            <div class="reel" aria-live="polite">Pay Rent</div>
+          </div>
+          <button class="machine-spin" type="button">Spin Machine 1</button>
+        </article>
+
+        <article class="machine-box" aria-label="Machine 2" data-machine="2">
+          <div class="machine-popup" aria-live="polite"></div>
+          <h2>Machine 2</h2>
+          <div class="reels" aria-label="Machine 2 reels">
+            <div class="reel" aria-live="polite">Flat Tire</div>
+            <div class="reel" aria-live="polite">Late Fee</div>
+          </div>
+          <button class="machine-spin" type="button">Spin Machine 2</button>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+.load-screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+}
+
+.load-screen.hidden {
+  display: none;
+}
+
+.load-card {
+  width: min(420px, 92vw);
+  background: #fff;
+  border: 3px solid #222;
+  border-radius: 10px;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.load-card h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.load-card label {
+  font-weight: 700;
+}
+
+.machine-choice-label {
+  margin: 0;
+  font-weight: 700;
+}
+
+.machine-choice-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.load-card input,
+.load-card select,
+.load-card button {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #222;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.load-card button {
+  background: #fff;
+  cursor: pointer;
+}
+
+.machine-choice-btn {
+  margin: 0;
+}
+
+.game-hidden {
+  visibility: hidden;
+}
+
+.slot-machine {
+  width: min(900px, 95vw);
+  padding: 24px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.machines {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.machines.single-machine {
+  display: flex;
+  justify-content: center;
+}
+
+.machines.single-machine .machine-box {
+  width: min(420px, 100%);
+}
+
+.machine-box {
+  border: 3px solid #222;
+  border-radius: 8px;
+  background: white;
+  padding: 16px;
+  min-height: 360px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.machine-box.machine-hidden {
+  display: none;
+}
+
+.machine-box h2 {
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.reels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  flex: 1;
+}
+
+.reel {
+  border: 2px solid #333;
+  border-radius: 6px;
+  min-height: 110px;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  text-align: center;
+  line-height: 1.2;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: #fafafa;
+}
+
+.machine-spin {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #222;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.machine-spin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.machine-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 170px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  text-align: center;
+  line-height: 1.25;
+  letter-spacing: 1px;
+  padding: 10px;
+  pointer-events: none;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.machine-popup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.machine-popup.win {
+  background: rgba(22, 101, 52, 0.82);
+}
+
+.machine-popup.lose {
+  background: rgba(127, 29, 29, 0.82);
+}
+
+@media (max-width: 700px) {
+  .machines {
+    grid-template-columns: 1fr;
+  }
+}
