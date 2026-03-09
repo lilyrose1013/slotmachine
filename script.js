@@ -112,6 +112,17 @@ function spinMachine(machineElement) {
 
 const machineBoxes = document.querySelectorAll(".machine-box");
 
+function setMachineCoinState(machineElement, hasCoin) {
+	machineElement.dataset.hasCoin = hasCoin ? "true" : "false";
+
+	const spinButton = machineElement.querySelector(".machine-spin");
+	if (!spinButton) {
+		return;
+	}
+
+	spinButton.disabled = !hasCoin;
+}
+
 if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
 	machineChoiceButtons.forEach((choiceButton) => {
 		choiceButton.addEventListener("click", () => {
@@ -126,15 +137,19 @@ if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
 
 			machineBoxes.forEach((machineElement) => {
 				const spinButton = machineElement.querySelector(".machine-spin");
+				const coinButton = machineElement.querySelector(".insert-coin-btn");
 				const isSelected = machineElement.dataset.machine === selectedMachineId;
 
 				machineElement.classList.toggle("machine-hidden", !isSelected);
+				setMachineCoinState(machineElement, false);
 
-				if (!spinButton) {
-					return;
+				if (coinButton) {
+					coinButton.disabled = !isSelected;
 				}
 
-				spinButton.disabled = !isSelected;
+				if (spinButton && !isSelected) {
+					spinButton.disabled = true;
+				}
 			});
 
 			if (machinesContainer) {
@@ -146,20 +161,35 @@ if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
 
 machineBoxes.forEach((machineElement) => {
 	const spinButton = machineElement.querySelector(".machine-spin");
+	const coinButton = machineElement.querySelector(".insert-coin-btn");
 	if (!spinButton) {
 		return;
 	}
 
-	spinButton.disabled = true;
+	setMachineCoinState(machineElement, false);
+
+	if (coinButton) {
+		coinButton.addEventListener("click", () => {
+			if (machineElement.dataset.machine !== selectedMachineId) {
+				return;
+			}
+
+			setMachineCoinState(machineElement, true);
+		});
+	}
 
 	spinButton.addEventListener("click", () => {
-		if (machineElement.dataset.machine !== selectedMachineId) {
+		if (
+			machineElement.dataset.machine !== selectedMachineId ||
+			machineElement.dataset.hasCoin !== "true"
+		) {
 			return;
 		}
 
 		hidePopup(machineElement);
 		setTimeout(() => {
 			spinMachine(machineElement);
+			setMachineCoinState(machineElement, false);
 		}, 120);
 	});
 });
