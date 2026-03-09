@@ -155,8 +155,21 @@ function updateMachineCounters(machineElement) {
 
 function incrementMachineCounter(machineElement, counterKey, amount) {
 	const currentValue = Number(machineElement.dataset[counterKey] || "0");
-	machineElement.dataset[counterKey] = String(currentValue + amount);
+	const normalizedAmount = Number(amount) || 0;
+	machineElement.dataset[counterKey] = String(currentValue + normalizedAmount);
 	updateMachineCounters(machineElement);
+}
+
+function normalizeWinPayout(spinResult) {
+	if (spinResult === true) {
+		return winCoinReward;
+	}
+
+	if (spinResult === false) {
+		return 0;
+	}
+
+	return Number(spinResult) || 0;
 }
 
 if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
@@ -224,7 +237,8 @@ machineBoxes.forEach((machineElement) => {
 
 		hidePopup(machineElement);
 		setTimeout(() => {
-			const gainedThisSpin = spinMachine(machineElement);
+			const spinResult = spinMachine(machineElement);
+			const gainedThisSpin = normalizeWinPayout(spinResult);
 			incrementMachineCounter(machineElement, "gainedCoins", gainedThisSpin);
 
 			machineElement.dataset.isSpinning = "false";
