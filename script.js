@@ -119,21 +119,23 @@ function setMachineCoinState(machineElement, hasCoin) {
 
 	const spinButton = machineElement.querySelector(".machine-spin");
 	const isSelectedMachine = machineElement.dataset.machine === selectedMachineId;
+	const isSpinning = machineElement.dataset.isSpinning === "true";
 	if (coinButton) {
 		coinButton.classList.toggle("coin-inserted", hasCoin);
-		coinButton.disabled = !isSelectedMachine || hasCoin;
+		coinButton.disabled = !isSelectedMachine || hasCoin || isSpinning;
 	}
 
 	if (!spinButton) {
 		return;
 	}
 
-	spinButton.disabled = !isSelectedMachine || !hasCoin;
+	spinButton.disabled = !isSelectedMachine || !hasCoin || isSpinning;
 }
 
 function initializeMachineCounters(machineElement) {
 	machineElement.dataset.insertedCoins = "0";
 	machineElement.dataset.gainedCoins = "0";
+	machineElement.dataset.isSpinning = "false";
 	updateMachineCounters(machineElement);
 }
 
@@ -150,9 +152,9 @@ function updateMachineCounters(machineElement) {
 	}
 }
 
-function incrementMachineCounter(machineElement, counterKey) {
+function incrementMachineCounter(machineElement, counterKey, amount = 1) {
 	const currentValue = Number(machineElement.dataset[counterKey] || "0");
-	machineElement.dataset[counterKey] = String(currentValue + 1);
+	machineElement.dataset[counterKey] = String(currentValue + amount);
 	updateMachineCounters(machineElement);
 }
 
@@ -210,11 +212,13 @@ machineBoxes.forEach((machineElement) => {
 	spinButton.addEventListener("click", () => {
 		if (
 			machineElement.dataset.machine !== selectedMachineId ||
-			machineElement.dataset.hasCoin !== "true"
+			machineElement.dataset.hasCoin !== "true" ||
+			machineElement.dataset.isSpinning === "true"
 		) {
 			return;
 		}
 
+		machineElement.dataset.isSpinning = "true";
 		setMachineCoinState(machineElement, false);
 
 		hidePopup(machineElement);
@@ -222,8 +226,11 @@ machineBoxes.forEach((machineElement) => {
 			const isWin = spinMachine(machineElement);
 
 			if (isWin) {
-				incrementMachineCounter(machineElement, "gainedCoins");
+				incrementMachineCounter(machineElement, "gainedCoins", 2);
 			}
+
+			machineElement.dataset.isSpinning = "false";
+			setMachineCoinState(machineElement, false);
 		}, 120);
 	});
 });
