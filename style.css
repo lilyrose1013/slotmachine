@@ -98,6 +98,10 @@ h1 {
   font-size: 1rem;
 }
 
+.insert-coin-btn.coin-inserted {
+  background: #ffeb3b;
+}
+
 .machines {
   display: grid;
   grid-template-columns: repeat(2, minmax(240px, 1fr));

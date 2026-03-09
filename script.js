@@ -114,8 +114,13 @@ const machineBoxes = document.querySelectorAll(".machine-box");
 
 function setMachineCoinState(machineElement, hasCoin) {
 	machineElement.dataset.hasCoin = hasCoin ? "true" : "false";
+	const coinButton = machineElement.querySelector(".insert-coin-btn");
 
 	const spinButton = machineElement.querySelector(".machine-spin");
+	if (coinButton) {
+		coinButton.classList.toggle("coin-inserted", hasCoin);
+	}
+
 	if (!spinButton) {
 		return;
 	}
@@ -186,10 +191,11 @@ machineBoxes.forEach((machineElement) => {
 			return;
 		}
 
+		setMachineCoinState(machineElement, false);
+
 		hidePopup(machineElement);
 		setTimeout(() => {
 			spinMachine(machineElement);
-			setMachineCoinState(machineElement, false);
 		}, 120);
 	});
 });
