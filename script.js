@@ -83,7 +83,7 @@ function spinMachine(machineElement) {
 				reel.textContent = machine2SmallWin;
 			});
 			showPopup(machineElement, true, machine2SmallWin);
-			return;
+			return true;
 		}
 
 		const first = getRandomSymbol(machine2OppositeOutcomes);
@@ -98,7 +98,7 @@ function spinMachine(machineElement) {
 		}
 
 		showPopup(machineElement, false, `${first} + ${second}`);
-		return;
+		return false;
 	}
 
 	const winningReward = getRandomSymbol(machine1Rewards);
@@ -108,6 +108,7 @@ function spinMachine(machineElement) {
 	});
 
 	showPopup(machineElement, true, winningReward);
+	return true;
 }
 
 const machineBoxes = document.querySelectorAll(".machine-box");
@@ -117,15 +118,42 @@ function setMachineCoinState(machineElement, hasCoin) {
 	const coinButton = machineElement.querySelector(".insert-coin-btn");
 
 	const spinButton = machineElement.querySelector(".machine-spin");
+	const isSelectedMachine = machineElement.dataset.machine === selectedMachineId;
 	if (coinButton) {
 		coinButton.classList.toggle("coin-inserted", hasCoin);
+		coinButton.disabled = !isSelectedMachine || hasCoin;
 	}
 
 	if (!spinButton) {
 		return;
 	}
 
-	spinButton.disabled = !hasCoin;
+	spinButton.disabled = !isSelectedMachine || !hasCoin;
+}
+
+function initializeMachineCounters(machineElement) {
+	machineElement.dataset.insertedCoins = "0";
+	machineElement.dataset.gainedCoins = "0";
+	updateMachineCounters(machineElement);
+}
+
+function updateMachineCounters(machineElement) {
+	const insertedElement = machineElement.querySelector(".inserted-count");
+	const gainedElement = machineElement.querySelector(".gained-count");
+
+	if (insertedElement) {
+		insertedElement.textContent = machineElement.dataset.insertedCoins || "0";
+	}
+
+	if (gainedElement) {
+		gainedElement.textContent = machineElement.dataset.gainedCoins || "0";
+	}
+}
+
+function incrementMachineCounter(machineElement, counterKey) {
+	const currentValue = Number(machineElement.dataset[counterKey] || "0");
+	machineElement.dataset[counterKey] = String(currentValue + 1);
+	updateMachineCounters(machineElement);
 }
 
 if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
@@ -141,20 +169,10 @@ if (loadScreen && gameArea && machineChoiceButtons.length > 0) {
 			gameArea.classList.remove("game-hidden");
 
 			machineBoxes.forEach((machineElement) => {
-				const spinButton = machineElement.querySelector(".machine-spin");
-				const coinButton = machineElement.querySelector(".insert-coin-btn");
 				const isSelected = machineElement.dataset.machine === selectedMachineId;
 
 				machineElement.classList.toggle("machine-hidden", !isSelected);
 				setMachineCoinState(machineElement, false);
-
-				if (coinButton) {
-					coinButton.disabled = !isSelected;
-				}
-
-				if (spinButton && !isSelected) {
-					spinButton.disabled = true;
-				}
 			});
 
 			if (machinesContainer) {
@@ -171,6 +189,7 @@ machineBoxes.forEach((machineElement) => {
 		return;
 	}
 
+	initializeMachineCounters(machineElement);
 	setMachineCoinState(machineElement, false);
 
 	if (coinButton) {
@@ -179,6 +198,11 @@ machineBoxes.forEach((machineElement) => {
 				return;
 			}
 
+			if (machineElement.dataset.hasCoin === "true") {
+				return;
+			}
+
+			incrementMachineCounter(machineElement, "insertedCoins");
 			setMachineCoinState(machineElement, true);
 		});
 	}
@@ -195,7 +219,11 @@ machineBoxes.forEach((machineElement) => {
 
 		hidePopup(machineElement);
 		setTimeout(() => {
-			spinMachine(machineElement);
+			const isWin = spinMachine(machineElement);
+
+			if (isWin) {
+				incrementMachineCounter(machineElement, "gainedCoins");
+			}
 		}, 120);
 	});
 });
