@@ -8,6 +8,7 @@ body {
   display: grid;
   place-items: center;
   font-family: Arial, sans-serif;
+  font-size: 17px;
   background: #f5f5f5;
 }
 
@@ -25,18 +26,19 @@ body {
 }
 
 .load-card {
-  width: min(420px, 92vw);
+  width: min(460px, 94vw);
   background: #fff;
   border: 3px solid #222;
   border-radius: 10px;
-  padding: 20px;
+  padding: 22px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .load-card h2 {
   margin: 0;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .load-card label {
@@ -58,10 +60,10 @@ body {
 .load-card select,
 .load-card button {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 2px solid #222;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .load-card button {
@@ -78,24 +80,25 @@ body {
 }
 
 .slot-machine {
-  width: min(900px, 95vw);
-  padding: 24px;
+  width: min(980px, 96vw);
+  padding: 26px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  font-size: 2rem;
 }
 
 .insert-coin-btn {
   width: 100%;
   margin: 0;
-  padding: 10px 14px;
+  padding: 12px 15px;
   border: 2px solid #222;
   border-radius: 6px;
   background: #fff;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.06rem;
 }
 
 .insert-coin-btn.coin-inserted {
@@ -109,8 +112,8 @@ h1 {
 
 .machines {
   display: grid;
-  grid-template-columns: repeat(2, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(270px, 1fr));
+  gap: 22px;
 }
 
 .machines.single-machine {
@@ -119,27 +122,27 @@ h1 {
 }
 
 .machines.single-machine .machine-box {
-  width: min(420px, 100%);
+  width: min(470px, 100%);
 }
 
 .machine-box {
   border: 3px solid #222;
   border-radius: 8px;
   background: white;
-  padding: 46px 16px 16px;
-  min-height: 360px;
+  padding: 50px 18px 18px;
+  min-height: 390px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .machine-counter {
   position: absolute;
-  top: 12px;
-  font-size: 0.9rem;
+  top: 13px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -159,36 +162,38 @@ h1 {
 .machine-box h2 {
   margin: 0 0 12px;
   text-align: center;
+  font-size: 1.4rem;
 }
 
 .reels {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
 }
 
 .reel {
   border: 2px solid #333;
   border-radius: 6px;
-  min-height: 110px;
+  min-height: 124px;
   display: grid;
   place-items: center;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
   line-height: 1.2;
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   font-weight: 700;
   background: #fafafa;
 }
 
 .machine-spin {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 2px solid #222;
   border-radius: 6px;
   background: #fff;
   cursor: pointer;
+  font-size: 1.06rem;
 }
 
 .machine-spin:disabled {
@@ -200,14 +205,14 @@ h1 {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 170px;
-  height: 170px;
+  width: 190px;
+  height: 190px;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
