@@ -17,6 +17,7 @@ const machine2OppositeOutcomes = [
 ];
 
 const machine2SmallWin = "Win $5 on the lottery";
+const winCoinReward = 2;
 let machine2SpinCount = 0;
 let selectedMachineId = null;
 
@@ -152,7 +153,7 @@ function updateMachineCounters(machineElement) {
 	}
 }
 
-function incrementMachineCounter(machineElement, counterKey, amount = 1) {
+function incrementMachineCounter(machineElement, counterKey, amount) {
 	const currentValue = Number(machineElement.dataset[counterKey] || "0");
 	machineElement.dataset[counterKey] = String(currentValue + amount);
 	updateMachineCounters(machineElement);
@@ -204,7 +205,7 @@ machineBoxes.forEach((machineElement) => {
 				return;
 			}
 
-			incrementMachineCounter(machineElement, "insertedCoins");
+			incrementMachineCounter(machineElement, "insertedCoins", 1);
 			setMachineCoinState(machineElement, true);
 		});
 	}
@@ -226,7 +227,7 @@ machineBoxes.forEach((machineElement) => {
 			const isWin = spinMachine(machineElement);
 
 			if (isWin) {
-				incrementMachineCounter(machineElement, "gainedCoins", 2);
+				incrementMachineCounter(machineElement, "gainedCoins", winCoinReward);
 			}
 
 			machineElement.dataset.isSpinning = "false";
