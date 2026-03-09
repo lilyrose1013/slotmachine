@@ -84,7 +84,7 @@ function spinMachine(machineElement) {
 				reel.textContent = machine2SmallWin;
 			});
 			showPopup(machineElement, true, machine2SmallWin);
-			return true;
+			return winCoinReward;
 		}
 
 		const first = getRandomSymbol(machine2OppositeOutcomes);
@@ -99,7 +99,7 @@ function spinMachine(machineElement) {
 		}
 
 		showPopup(machineElement, false, `${first} + ${second}`);
-		return false;
+		return 0;
 	}
 
 	const winningReward = getRandomSymbol(machine1Rewards);
@@ -109,7 +109,7 @@ function spinMachine(machineElement) {
 	});
 
 	showPopup(machineElement, true, winningReward);
-	return true;
+	return winCoinReward;
 }
 
 const machineBoxes = document.querySelectorAll(".machine-box");
@@ -224,11 +224,8 @@ machineBoxes.forEach((machineElement) => {
 
 		hidePopup(machineElement);
 		setTimeout(() => {
-			const isWin = spinMachine(machineElement);
-
-			if (isWin) {
-				incrementMachineCounter(machineElement, "gainedCoins", winCoinReward);
-			}
+			const gainedThisSpin = spinMachine(machineElement);
+			incrementMachineCounter(machineElement, "gainedCoins", gainedThisSpin);
 
 			machineElement.dataset.isSpinning = "false";
 			setMachineCoinState(machineElement, false);
